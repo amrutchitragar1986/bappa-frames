@@ -1,0 +1,214 @@
+<!doctype html><html><head><meta charset="UTF-8"/>
+<script src="data.js"></script>
+<style>
+@font-face{font-family:Yatra;src:url(assets/yatra-dev.woff2) format('woff2');unicode-range:U+0900-097F,U+1CD0-1CF9,U+200C-200D,U+25CC,U+A8E0-A8FF}
+@font-face{font-family:Yatra;src:url(assets/yatra-lat.woff2) format('woff2');unicode-range:U+0000-00FF}
+@font-face{font-family:Tiro;src:url(assets/tiro-dev.woff2) format('woff2');unicode-range:U+0900-097F,U+1CD0-1CF9,U+200C-200D,U+25CC,U+A8E0-A8FF}
+@font-face{font-family:Tiro;src:url(assets/tiro-lat.woff2) format('woff2');unicode-range:U+0000-00FF}
+@font-face{font-family:NSD;src:url(assets/nsd-dev.woff2) format('woff2');font-weight:700;unicode-range:U+0900-097F,U+200C-200D,U+25CC}
+@font-face{font-family:NSD;src:url(assets/nsd-lat.woff2) format('woff2');font-weight:700;unicode-range:U+0000-00FF}
+html,body{margin:0;width:1920px;height:1080px;overflow:hidden;background:#000}
+#root{position:relative;width:1920px;height:1080px;overflow:hidden;background:#1a0503}
+.shot{position:absolute;left:0;top:0;width:1920px;height:1080px;overflow:hidden;will-change:transform,filter}
+.shot img{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:0 0}
+#glow{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 70% 60% at 50% 30%,rgba(255,190,90,.10),transparent 70%);mix-blend-mode:screen}
+#havan{position:absolute;left:0;top:425px;width:1920px;height:1080px;
+ -webkit-mask-image:linear-gradient(to bottom,transparent 0px,transparent 110px,rgba(0,0,0,.35) 250px,rgba(0,0,0,.85) 340px,#000 400px);mask-image:linear-gradient(to bottom,transparent 0px,transparent 110px,rgba(0,0,0,.35) 250px,rgba(0,0,0,.85) 340px,#000 400px)}
+#haze{position:absolute;left:0;right:0;top:560px;height:300px;pointer-events:none;background:radial-gradient(ellipse 60% 55% at 50% 60%,rgba(255,140,40,.28),transparent 70%);mix-blend-mode:screen}
+#havan img{position:absolute;left:0;top:0;width:1920px;height:1080px}
+#vig{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 85% 80% at 50% 42%,transparent 58%,rgba(10,0,0,.62) 100%)}
+#fx{position:absolute;inset:0}
+#flash{position:absolute;inset:0;background:#fff7e0;opacity:0;pointer-events:none}
+/* counter + ring, top right */
+#cntbox{position:absolute;right:40px;top:34px;width:250px;height:250px}
+#ring{position:absolute;inset:0}
+#cnt{position:absolute;left:0;right:0;top:66px;text-align:center;font:400 78px/1 Yatra;color:#ffe08a;
+ text-shadow:0 0 18px rgba(255,170,40,.9),0 3px 0 #6b1200}
+#cntsub{position:absolute;left:0;right:0;top:150px;text-align:center;font:700 26px/1 NSD;color:#ffe7b0;letter-spacing:1px;text-shadow:0 2px 6px #000}
+/* mantra karaoke line, bottom centre */
+#mantra{position:absolute;left:0;width:1620px;bottom:46px;text-align:center;white-space:nowrap}
+#mantra span{font:400 50px/1.2 Tiro;color:rgba(255,236,200,.55);text-shadow:0 3px 10px rgba(0,0,0,.95);padding:0 10px;transition:none}
+#mantra span.on{color:#ffd45e;text-shadow:0 0 18px rgba(255,160,30,.95),0 3px 10px #000}
+#mband{position:absolute;left:0;right:0;bottom:0;height:200px;background:linear-gradient(to top,rgba(20,2,0,.75),transparent)}
+/* hook */
+#hook{position:absolute;left:0;right:0;top:120px;text-align:center;transform-origin:50% 0}
+#hook .h1{font:400 128px/1.05 Yatra;color:#fff;text-shadow:0 0 34px rgba(255,140,20,1),0 7px 0 #7a1200,0 12px 30px #000}
+#hook .h2{font:400 92px/1.1 Yatra;color:#ffd24a;text-shadow:0 0 26px rgba(255,120,0,.95),0 6px 0 #6b1000,0 10px 24px #000;margin-top:14px}
+/* milestone */
+#mile{position:absolute;left:50%;top:330px;transform:translateX(-50%);text-align:center;padding:30px 70px 34px;border-radius:30px;
+ background:radial-gradient(ellipse at 50% 30%,rgba(120,14,6,.92),rgba(50,0,0,.92));border:3px solid #f0c050;box-shadow:0 0 60px rgba(255,170,40,.65)}
+#mile .m1{font:400 96px/1 Yatra;color:#ffe08a;text-shadow:0 0 24px rgba(255,150,20,.95)}
+#mile .m2{font:700 40px/1.2 NSD;color:#fff1cc;margin-top:12px}
+/* CTA top-left */
+#cta{position:absolute;left:40px;top:40px;padding:16px 30px;border-radius:50px;background:linear-gradient(135deg,rgba(110,8,8,.88),rgba(55,0,0,.88));
+ border:2px solid #e2b13c;font:700 36px/1 NSD;color:#fff0c8;box-shadow:0 8px 30px rgba(0,0,0,.5);white-space:nowrap}
+#cta b{color:#ffd24a}
+/* brand badge bottom right */
+#slot{position:absolute;right:40px;bottom:150px;width:430px;height:150px}
+#bname{position:absolute;right:0;bottom:18px;padding:14px 30px 16px 26px;border-radius:60px;transform-origin:100% 50%;
+ background:linear-gradient(135deg,rgba(110,8,8,.85),rgba(55,0,0,.85));border:2px solid #e2b13c;box-shadow:0 8px 30px rgba(0,0,0,.45),inset 0 0 18px rgba(255,190,80,.25);overflow:hidden;white-space:nowrap}
+#bname .t1{font:400 44px/1 Yatra;background:linear-gradient(180deg,#fff3c4 0%,#f5c84c 45%,#c98a12 100%);-webkit-background-clip:text;color:transparent}
+#bname .t2{font:700 19px/1 NSD;color:#ffe7a8;letter-spacing:4px;margin-top:6px;text-align:right}
+.shine{position:absolute;top:-20%;bottom:-20%;width:60px;left:-120px;transform:skewX(-20deg);background:linear-gradient(90deg,transparent,rgba(255,255,255,.75),transparent)}
+#blogo{position:absolute;right:10px;bottom:0;width:150px;height:150px;border-radius:50%;box-shadow:0 0 30px rgba(255,190,60,.55),0 8px 24px rgba(0,0,0,.5);overflow:hidden}
+#blogo img{width:100%;height:100%;display:block}
+</style></head><body>
+<div id="root">
+ <div class="shot" id="sa"><img id="ia"/></div>
+ <div class="shot" id="sb"><img id="ib"/></div>
+ <div id="glow"></div>
+ <div id="havan"><img id="hidle"/><img id="hahuti"/></div>
+ <div id="haze"></div>
+ <div id="vig"></div>
+ <canvas id="fx" width="1920" height="1080"></canvas>
+ <div id="mband"></div>
+ <div id="mantra"><span id="p1">ॐ गं गणपतये</span><span id="p2">सर्वकार्य सिद्धि</span><span id="p3">कुरु कुरु स्वाहा</span></div>
+ <div id="cntbox"><canvas id="ring" width="250" height="250"></canvas><div id="cnt">१</div><div id="cntsub">जाप / १०८</div></div>
+ <div id="cta"></div>
+ <div id="mile"><div class="m1" id="m1"></div><div class="m2" id="m2"></div></div>
+ <div id="hook"><div class="h1">रुका हुआ काम?</div><div class="h2">१०८ बार सुनिए 🙏</div></div>
+ <div id="slot"><div id="bname"><div class="t1">All about बाप्पा</div><div class="t2">GANESH JI</div><div class="shine" id="bsh"></div></div>
+  <div id="blogo"><img src="assets/logo.png"/><div class="shine" id="lsh"></div></div></div>
+ <div id="flash"></div>
+</div>
+<script>
+const D=window.DATA, W=1920, H=1080, FPSV=24;
+const $=id=>document.getElementById(id);
+const dev=n=>String(n).replace(/[0-9]/g,d=>'०१२३४५६७८९'[d]);
+const clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
+const ease=x=>x<.5?2*x*x:1-Math.pow(-2*x+2,2)/2;
+const easeOut=x=>1-Math.pow(1-x,3);
+const lerp=(a,b,p)=>a+(b-a)*p;
+// ---------- seeded random ----------
+function rnd(i){let x=Math.sin(i*127.1+311.7)*43758.5453;return x-Math.floor(x);}
+// ---------- shot geometry ----------
+function shotGeom(sh,t){
+  const p=clamp((t-sh.t0)/Math.max(.001,sh.t1-sh.t0),0,1), e=ease(p);
+  const z=lerp(sh.z0,sh.z1,e);
+  const im=D.IM[sh.img];
+  let f=sh.focus==='face'?im.face:sh.focus==='mala'?im.mala:(sh.det||im.face);
+  const ax=sh.anchor[0]*W+(sh.pan?sh.pan*(e-.5):0), ay=sh.anchor[1]*H;
+  let left=ax-f[0]*W*z, top=ay-f[1]*H*z;
+  left=clamp(left,W-W*z,0); top=clamp(top,H-H*z,0);
+  return {z,left,top,mala:[left+im.mala[0]*W*z, top+im.mala[1]*H*z]};
+}
+function shotAt(t){let i=0;for(let k=0;k<D.shots.length;k++){if(t>=D.shots[k].t0)i=k;}return i;}
+const TR=0.55;
+async function setImg(el,src){ if(el.dataset.src!==src){el.dataset.src=src; el.src=src; try{await el.decode();}catch(e){}} }
+function clipSrc(sh,t){const n=158; const rate=(sh.clip==='hook_s02')?0.9:1.0;
+  const f=clamp(Math.floor((t-sh.t0)*FPSV*rate),0,n-1)+1; return `assets/fr/${sh.clip}/${String(f).padStart(4,'0')}.jpg`;}
+async function drawShot(slot,img,sh,t,dx,blur){
+  const g=shotGeom(sh,t);
+  await setImg(img, sh.clip?clipSrc(sh,t):D.IM[sh.img].src);
+  img.style.transform=`translate(${g.left}px,${g.top}px) scale(${g.z})`;
+  slot.style.transform=`translateX(${dx}px)`; slot.style.filter=blur>0.2?`blur(${blur.toFixed(1)}px)`:'none';
+  return g;
+}
+// ---------- havan ----------
+const AH=[0].concat(D.S.map(s=>s-3.45)); // ahuti clip start times
+function ahutiAt(t){for(const a of AH){if(t>=a&&t<a+6.58)return a;}return null;}
+async function drawHavan(t,hidden){
+  const hv=$('havan'); hv.style.opacity=hidden;
+  const fi=Math.floor(t*FPSV)%243+1;
+  await setImg($('hidle'),`assets/fr/idle/${String(fi).padStart(4,'0')}.jpg`);
+  const a=ahutiAt(t); const ha=$('hahuti');
+  if(a!==null){const f=clamp(Math.floor((t-a)*FPSV),0,157)+1; await setImg(ha,`assets/fr/ahuti/${String(f).padStart(4,'0')}.jpg`);
+    const d=t-a; ha.style.opacity=clamp(Math.min(d/0.25,(6.58-d)/0.25),0,1);} else ha.style.opacity=0;
+}
+// ---------- fx canvas ----------
+const cx=$('fx').getContext('2d');
+const FIRE=[960,700];
+function drawFx(t,malaPt,havanVis){
+  cx.clearRect(0,0,W,H); cx.globalCompositeOperation='lighter';
+  // fire sparks
+  if(havanVis>0.05){for(let i=0;i<70;i++){const life=2.2+rnd(i)*1.8, ph=rnd(i+99)*life; const a=((t+ph)%life)/life;
+    const x=FIRE[0]+(rnd(i+7)-.5)*300+Math.sin(t*2+i)*18*a, y=FIRE[1]+90-a*(330+rnd(i+3)*200);
+    const r=1.5+rnd(i+5)*2.5; const al=(1-a)*havanVis*.9; spark(x,y,r*3,`rgba(255,${150+Math.floor(rnd(i)*80)},60,${al})`);}}
+  // floating dust over the whole frame
+  for(let i=0;i<45;i++){const x=(rnd(i+500)*W+t*(8+rnd(i+600)*14))%W, y=(rnd(i+700)*H - t*(5+rnd(i)*8)+H*5)%H;
+    const tw=.25+.25*Math.sin(t*1.3+i); spark(x,y,4+rnd(i+800)*5,`rgba(255,225,160,${tw*.5})`);}
+  // orb flights
+  for(let n=0;n<D.S.length;n++){const s=D.S[n], d=t-s; if(d<-0.1||d>2.3)continue;
+    const tx=malaPt[0], ty=malaPt[1];
+    const c1=[FIRE[0]-60,FIRE[1]-360], st=[FIRE[0],FIRE[1]-30];
+    if(d>=0&&d<=1.25){const p=easeOut(d/1.25);
+      for(let k=0;k<14;k++){const q=Math.max(0,p-k*0.025); const x=(1-q)*(1-q)*st[0]+2*(1-q)*q*c1[0]+q*q*tx, y=(1-q)*(1-q)*st[1]+2*(1-q)*q*c1[1]+q*q*ty;
+        spark(x,y,(26-k*1.5),`rgba(255,${200-k*6},${90-k*4},${(1-k/14)*.9})`);}}
+    if(d>1.1){const b=(d-1.1)/1.2; if(b<=1){ // burst at the mala
+      spark(tx,ty,60+b*40,`rgba(255,230,140,${(1-b)*.95})`);
+      cx.lineWidth=4*(1-b); cx.strokeStyle=`rgba(255,215,110,${1-b})`; cx.beginPath(); cx.arc(tx,ty,20+b*150,0,6.283); cx.stroke();
+      cx.lineWidth=2*(1-b); cx.beginPath(); cx.arc(tx,ty,10+b*90,0,6.283); cx.stroke();
+      for(let k=0;k<16;k++){const ang=k/16*6.283+n; const r=20+b*170; spark(tx+Math.cos(ang)*r,ty+Math.sin(ang)*r,6*(1-b)+2,`rgba(255,220,130,${1-b})`);}}}
+  }
+  // milestone petals
+  for(const m of D.milestones){const d=t-m.t; if(d<0||d>4.2)continue;
+    for(let i=0;i<90;i++){const st=rnd(i+m.n)*1.2; if(d<st)continue; const a=(d-st);
+      const x=rnd(i*3+m.n)*W+Math.sin(a*2+i)*40, y=-40+a*(260+rnd(i+11)*200); const al=clamp(1-(d-3.2),0,1);
+      cx.globalCompositeOperation='source-over'; cx.save(); cx.translate(x,y); cx.rotate(a*2+i); cx.fillStyle=i%3?`rgba(255,${120+Math.floor(rnd(i)*60)},20,${al})`:`rgba(230,30,40,${al})`;
+      cx.beginPath(); cx.ellipse(0,0,13,7,0,0,6.283); cx.fill(); cx.restore(); cx.globalCompositeOperation='lighter';}}
+  cx.globalCompositeOperation='source-over';
+}
+function spark(x,y,r,col){const g=cx.createRadialGradient(x,y,0,x,y,r);g.addColorStop(0,col);g.addColorStop(1,'rgba(0,0,0,0)');cx.fillStyle=g;cx.beginPath();cx.arc(x,y,r,0,6.283);cx.fill();}
+// ---------- ring ----------
+const rc=$('ring').getContext('2d');
+function drawRing(done,t){rc.clearRect(0,0,250,250);
+  rc.beginPath();rc.arc(125,125,112,0,6.283);rc.fillStyle='rgba(50,2,0,.62)';rc.fill();rc.lineWidth=3;rc.strokeStyle='#e2b13c';rc.stroke();
+  for(let i=0;i<108;i++){const a=-Math.PI/2+i/108*6.283, x=125+Math.cos(a)*100, y=125+Math.sin(a)*100;
+    const on=i<done; rc.beginPath(); rc.arc(x,y,on?4.2:3.2,0,6.283);
+    rc.fillStyle=on?'#ffd45e':'rgba(150,90,60,.65)'; if(on){rc.shadowColor='rgba(255,180,40,.9)';rc.shadowBlur=8;} rc.fill(); rc.shadowBlur=0;}
+  // sumeru bead at top
+  rc.beginPath();rc.arc(125,25-6,7,0,6.283);rc.fillStyle='#c0392b';rc.fill();
+}
+// ---------- main ----------
+window.__timelines={main:{seek(){}}};
+window.__onSeek=async function(t){
+  const i=shotAt(t), sh=D.shots[i], nx=D.shots[i+1], pv=D.shots[i-1];
+  let A={sh, dx:0, blur:0}, B=null;
+  // slide transition window around boundaries
+  if(nx && t>nx.t0-TR/2){ const p=ease(clamp((t-(nx.t0-TR/2))/TR,0,1)); const dir=(i%2?1:-1);
+    A={sh,dx:dir*p*W,blur:10*Math.sin(Math.PI*p)}; B={sh:nx,dx:-dir*(1-p)*W,blur:10*Math.sin(Math.PI*p)}; }
+  else if(pv && t<sh.t0+TR/2){ const p=ease(clamp((t-(sh.t0-TR/2))/TR,0,1)); const dir=((i-1)%2?1:-1);
+    B={sh:pv,dx:dir*p*W,blur:10*Math.sin(Math.PI*p)}; A={sh,dx:-dir*(1-p)*W,blur:10*Math.sin(Math.PI*p)}; }
+  const gA=await drawShot($('sa'),$('ia'),A.sh,t,A.dx,A.blur);
+  if(B){$('sb').style.display='block'; await drawShot($('sb'),$('ib'),B.sh,t,B.dx,B.blur);} else $('sb').style.display='none';
+  // havan hidden on s07 shots (it has its own fire)
+  let hv=1; const s7=(s)=>s.img==='s07';
+  if(s7(sh)) hv=0; if(B){const p=Math.abs(B.dx)/W; if(s7(B.sh)&&!s7(sh)) hv=p; if(!s7(B.sh)&&s7(sh)) hv=1-p;}
+  await drawHavan(t,hv);
+  const malaPt=[gA.mala[0]+A.dx,gA.mala[1]];
+  drawFx(t,malaPt,hv);
+  // flash: hook flare + milestones
+  let fl=0; const hk=t-2.9; if(hk>=0&&hk<.5) fl=Math.max(fl,.8*(1-hk/.5));
+  for(const m of D.milestones){const d=t-m.t; if(d>=0&&d<.45) fl=Math.max(fl,.85*(1-d/.45));}
+  $('flash').style.opacity=fl;
+  // counter
+  let cur=1; for(let n=0;n<D.OM.length;n++) if(t>=D.OM[n]) cur=n+1;
+  let done=0; for(const s of D.S) if(t>=s+1.25) done++;
+  $('cnt').textContent=dev(Math.min(cur,108)); drawRing(done,t);
+  const pulse=D.S.some(s=>t>=s+1.25&&t<s+1.6); $('cnt').style.transform=`scale(${pulse?1.12:1})`;
+  // karaoke phrases
+  let ph=0; for(let n=0;n<D.OM.length;n++){const om=D.OM[n], c=D.C[n+1], s=D.S[n];
+    if(t>=om&&t<om+2.3) ph=1; else if(t>=om+2.3&&t<om+6.5) ph=2; else if(c&&t>=c-0.05&&t<s+0.3) ph=3;}
+  ['p1','p2','p3'].forEach((id,k)=>$(id).className=(ph===k+1)?'on':'');
+  // hook
+  const hk2=clamp((t-4.0)/0.8,0,1); $('hook').style.opacity=1-hk2; $('hook').style.transform=`scale(${(t<0.6?1.18-0.18*easeOut(t/0.6):1)-0.25*hk2}) translateY(${-60*hk2}px)`;
+  // milestone card
+  let mo=0, mt=null; for(const m of D.milestones){const d=t-m.t; if(d>=0&&d<4.0){mt=m; mo=Math.min(clamp(d/0.4,0,1),clamp((4.0-d)/0.5,0,1));}}
+  if(mt){$('m1').textContent=`${dev(mt.n)} जाप पूर्ण ✨`; $('m2').textContent=mt.n===11?'अगला पड़ाव: २१ · बाप्पा के साथ बने रहिए':'अगला पड़ाव: ५१ · मन ही मन साथ जपिए';}
+  $('mile').style.opacity=mo; $('mile').style.transform=`translateX(-50%) scale(${0.85+0.15*easeOut(mo)})`;
+  // CTA
+  let co=0; for(const c of D.cta){const d=t-c.t; if(d>=0&&d<5.5){co=Math.min(clamp(d/0.4,0,1),clamp((5.5-d)/0.4,0,1));
+    $('cta').innerHTML=c.kind==='like'?'👍 <b>Like</b> करें · बाप्पा का आशीर्वाद सबको':'🔔 <b>Subscribe</b> करें · All about बाप्पा';}}
+  $('cta').style.opacity=co; $('cta').style.transform=`translateX(${-40*(1-co)}px)`;
+  // brand badge: 10 s cycle starting at 8 s, name 0-4.85, logo 5.0-9.85
+  const bt=t-8; const bn=$('bname'), bl=$('blogo');
+  if(bt<0){bn.style.opacity=0; bl.style.opacity=0;} else { const c=bt%10;
+    if(c<5){const pin=easeOut(clamp(c/0.7,0,1)), pout=clamp((c-4.4)/0.45,0,1); const o=pin*(1-pout);
+      bn.style.opacity=o; bn.style.transform=`translateX(${60*(1-pin)+40*pout}px) scaleX(${0.2+0.8*pin-0.8*pout})`;
+      $('bsh').style.transform=`translateX(${c>0.9&&c<1.9?580*ease((c-.9)/1):(c>3&&c<4?580*ease(c-3):0)}px) skewX(-20deg)`; bl.style.opacity=0;}
+    else {const d=c-5; const pin=clamp(d/0.9,0,1); const bo=pin<1?1+2.6*Math.pow(pin-1,3)+1.6*Math.pow(pin-1,2):1; // back.out
+      const pout=clamp((d-4.4)/0.45,0,1); const spin=d>2.6&&d<3.8?360*ease((d-2.6)/1.2):(d>=3.8?360:0);
+      bl.style.opacity=clamp(pin*2,0,1)*(1-pout); bl.style.transform=`scale(${(0.4+0.6*bo)*(1-0.6*pout)}) rotate(${-120*(1-pin)+spin+120*pout}deg)`;
+      $('lsh').style.transform=`translateX(${d>1.1&&d<2.0?380*ease((d-1.1)/.9):0}px) skewX(-20deg)`; bn.style.opacity=0;}}
+};
+</script></body></html>
